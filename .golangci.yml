@@ -1,0 +1,155 @@
+# cSpell:disable
+version: "2"
+
+output:
+  formats:
+    text:
+      path: stderr
+
+linters:
+  default: all
+  disable:
+    - wrapcheck
+    - varnamelen
+    - testpackage
+    - paralleltest
+    - nilnil
+    - funcorder
+    - wsl
+    - wsl_v5
+    - nlreturn
+    - perfsprint
+    - err113
+    - gocyclo
+    - cyclop
+    - nestif
+    - funlen
+    - maintidx
+    - lll
+    - exhaustruct
+    - godox
+    - dupl
+    - ireturn
+    - nonamedreturns
+    - mnd
+    - noinlineerr
+    - depguard
+  settings:
+    dupl:
+      threshold: 100
+    errcheck:
+      check-type-assertions: false
+      check-blank: false
+    goconst:
+      min-len: 3
+      min-occurrences: 5
+    gocritic:
+      enabled-tags:
+        - performance
+      settings:
+        captLocal:
+          paramsOnly: true
+        rangeValCopy:
+          sizeThreshold: 32
+    interfacebloat:
+      max: 5
+    lll:
+      tab-width: 1
+    nakedret:
+      max-func-lines: 30
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+    prealloc:
+      simple: true
+      range-loops: true
+      for-loops: false
+    tagliatelle:
+      case:
+        rules:
+          json: goCamel
+    unparam:
+      check-exported: false
+    unused:
+      exported-fields-are-used: true
+  exclusions:
+    generated: lax
+    rules:
+      - linters:
+          - containedctx
+          - errcheck
+          - forcetypeassert
+          - gochecknoglobals
+          - gochecknoinits
+          - gocognit
+          - gosec
+          - scopelint
+          - unparam
+          - embeddedstructfieldcheck
+        path: _test(ing)?\.go
+      - linters:
+          - gocritic
+        path: _test\.go
+        text: (unnamedResult|exitAfterDefer)
+      - linters:
+          - gochecknoglobals
+          - gochecknoinits
+        path: apis/
+      - linters:
+          - gocritic
+        text: "(hugeParam|rangeValCopy):"
+      - linters:
+          - staticcheck
+        text: "SA3000:"
+      - linters:
+          - gosec
+        text: "G101:"
+      - linters:
+          - gosec
+        text: "G104:"
+      - linters:
+          - gosec
+        text: "G601:"
+      - linters:
+          - musttag
+        path: k8s.io/
+      - linters:
+          - staticcheck
+        text: "SA1019: .+ is deprecated: Use Composition Functions instead."
+    paths:
+      - zz_generated\..+\.go$
+      - .+\.pb.go$
+      - third_party$
+      - builtin$
+      - examples$
+
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  new: false
+
+formatters:
+  enable:
+    - gci
+    - gofmt
+    - goimports
+  settings:
+    gci:
+      sections:
+        - standard
+        - default
+        - prefix(github.com/crossplane/crossplane-runtime)
+        - prefix(github.com/crossplane/crossplane)
+        - blank
+        - dot
+      custom-order: true
+    gofmt:
+      simplify: true
+  exclusions:
+    generated: lax
+    paths:
+      - zz_generated\..+\.go$
+      - .+\.pb.go$
+      - third_party$
+      - builtin$
+      - examples$
